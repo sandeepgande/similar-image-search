@@ -65,7 +65,7 @@ if uploaded_file:
             # Search for similar images through google image search api
             gis.search(search_params=_search_params)
             IMG = []
-        st.text('Search results :')
+        st.header('Search results :')
         col1, col2, col3 = st.columns(3)
         for i,image in enumerate(gis.results()):
             my_bytes_io.seek(0)
