@@ -40,29 +40,31 @@ if uploaded_file:
     st.image(img_array)
 
     if st.button('Fetch similar images'):
-
-        input_image = tf.keras.applications.inception_v3.preprocess_input(input_image)
-        prediction = inception_net.predict(input_image).flatten()
-        lab =  {labels[i]: float(prediction[i]) for i in range(1000)}
-        label = max(zip(lab.values(), lab.keys()))[1]
-
-
-  
-        # Setting the search parameters to fetch similar images
-        _search_params = {
-            'q': label,
-            'num': n,
-            'safe': 'high',
-            'fileType': 'jpg',
-            'imgType': 'photo',
-            'imgSize': 'MEDIUM',
-            'imgColorType': 'color',
-            'rights': 'cc_noncommercial'
-        }
         
-        # Search for similar images through google image search api
-        gis.search(search_params=_search_params)
-        IMG = []
+        with st.spinner('Please wait...'):
+
+            input_image = tf.keras.applications.inception_v3.preprocess_input(input_image)
+            prediction = inception_net.predict(input_image).flatten()
+            lab =  {labels[i]: float(prediction[i]) for i in range(1000)}
+            label = max(zip(lab.values(), lab.keys()))[1]
+
+
+
+            # Setting the search parameters to fetch similar images
+            _search_params = {
+                'q': label,
+                'num': n,
+                'safe': 'high',
+                'fileType': 'jpg',
+                'imgType': 'photo',
+                'imgSize': 'MEDIUM',
+                'imgColorType': 'color',
+                'rights': 'cc_noncommercial'
+            }
+
+            # Search for similar images through google image search api
+            gis.search(search_params=_search_params)
+            IMG = []
         st.text('Search results :')
         col1, col2, col3 = st.columns(3)
         for i,image in enumerate(gis.results()):
